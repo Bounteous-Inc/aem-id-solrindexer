@@ -1,0 +1,132 @@
+<!doctype html><html class="coral-App">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>Solr Indexer | Infield</title>
+
+    <link rel="icon" href="/apps/infield/components/utilities/solr-indexer/clientlibs/images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/apps/infield/components/utilities/solr-indexer/clientlibs/images/favicon.ico" type="image/x-icon">
+
+    <sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html" data-sly-call="${clientLib.css @ categories='infield-commons.solr-indexer'}" data-sly-unwrap/>
+</head>
+<body class="foundation-layout-util-maximized-alt">
+
+    <div class="foundation-wizard coral-Wizard coral-Wizard--maximized coral--light foundation-layout-wizard infield-solr-index">
+        <header class="endor-Panel-header endor-BreadcrumbBar">
+            <nav class="endor-Crumbs">
+                <a class="endor-Crumbs-item" href="#"><i class="endor-Crumbs-item-icon coral-Icon coral-Icon--box coral-Icon--sizeM"></i> Infield Toolbox</a>
+                <a class="endor-Crumbs-item endor-Crumbs-item--ellipsis" href="#"></a>
+                <a class="endor-Crumbs-item" href="#">Solr Indexer</a>
+            </nav>
+        </header>
+        <main class="foundation-wizard-step coral-Wizard-step foundation-wizard-step-active" role="main">
+            <section data-ng-app="InfieldCommonsApp">
+                <div data-ng-controller="SolrIndexCtrl" class="coral-FixedColumn foundation-layout-util-vmargin">
+                    <div class="coral-FixedColumn-column">
+                        <h1>Solr Indexer</h1>
+                        <p>Please configure the Solr instance so that you can update the index:</p>
+                        <form method="POST" data-ng-submit="collectData()" class="coral-Form coral-Form--vertical" data-sly-use.osgi="osgi" data-sly-test.solrInstalled="${osgi.host}">
+                            <div class="coral-Well">
+                                <span class="coral-Collapsible-title">Path to index</span>
+                                <p>Please specify the path to contents that should be (re-)indexed:</p>
+                                <div class="foundation-field-edit coral-Form-fieldwrapper">
+                                    <div class="coral-Form-field coral-PathBrowser" data-init="pathbrowser" data-root-path="/content" data-picker-src="/libs/wcm/core/content/common/pathbrowser/column.html/content?predicate=hierarchyNotFile" data-crumb-root="Content" data-cq-msm-lockable="cq:path">
+                                        <span class="coral-InputGroup coral-InputGroup--block">
+                                            <input class="coral-InputGroup-input coral-Textfield js-coral-pathbrowser-input" type="text" name="./cq:path" data-ng-model="config.indexPath" autocomplete="off" aria-owns="coral-22" data-ng-disabled="preventInput" required>
+                                            <span class="coral-InputGroup-button">
+                                                <button class="coral-Button coral-Button--secondary coral-Button--square js-coral-pathbrowser-button" type="button" title="Browse" data-ng-disabled="preventInput">
+                                                    <i class="coral-Icon coral-Icon--sizeS coral-Icon--folderSearch"></i>
+                                                </button>
+                                            </span>
+                                        </span>
+                                        <ul id="coral-22" class="coral-SelectList" role="listbox" aria-controls="" aria-hidden="true" aria-multiselectable="false"></ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="coral-Well">
+                                <span class="coral-Collapsible-title">AEM Settings</span>
+                                <p>Please specify the AEM username and password for a user that has all the necessary permissions to index your site.</p>
+                                <div class="coral-Form-fieldwrapper">
+                                    <label class="coral-Form-fieldlabel" for="field-aemuser">AEM User:</label>
+                                    <input class="coral-Form-field coral-Textfield" name="aem-user" id="field-aemuser" type="text" value="" placeholder="AEM User" data-ng-model="config.aemUser" data-ng-init="config.aemUser='admin'" data-ng-disabled="preventInput" required>
+                                </div>
+                                <div class="coral-Form-fieldwrapper">
+                                    <label class="coral-Form-fieldlabel" for="field-aempassword">AEM Password:</label>
+                                    <input class="coral-Form-field coral-Textfield" name="aem-password" id="field-aempassword" type="password" value="" placeholder="AEM Password" data-ng-model="config.aemPassword" data-ng-init="config.aemPassword='admin'" data-ng-disabled="preventInput" required>
+                                </div>
+                            </div>
+
+                            <div class="infield-solr-advanced-settings coral-Collapsible" data-init="accordion">
+                                <h3 class="coral-Collapsible-header">
+                                    <span class="coral-Collapsible-title">Advanced Settings</span>
+                                    <span class="coral-Collapsible-subtitle"></span>
+                                </h3>
+                                <div class="coral-Collapsible-content">
+                                    <div class="coral-Form-fieldwrapper">
+                                        <label class="coral-Form-fieldlabel" for="field-solrurl">Solr Url:</label>
+                                        <input class="coral-Form-field coral-Textfield" name="solrurl" id="field-solrurl" type="text" value="" placeholder="Solr Url" data-ng-model="config.solrurl" data-ng-init="config.solrurl='${osgi.protocol}://${osgi.host}:${osgi.port}/solr/collection1/update'" data-ng-disabled="preventInput" required>
+                                        <span class="coral-Form-fieldinfo coral-Icon coral-Icon--infoCircle coral-Icon--sizeS" data-init="quicktip" data-quicktip-type="info" data-quicktip-arrow="right" data-quicktip-content="Usually you do not have to change this value as it should be coming from the OSGi config."></span>
+                                    </div>
+                                    <div class="coral-Form-fieldwrapper">
+                                        <label class="coral-Form-fieldlabel" for="field-path">AEM Update handler Url:</label>
+                                        <input class="coral-Form-field coral-Textfield" name="path" id="field-path" type="text" value="" placeholder="Update handler Url" data-ng-model="config.path" data-ng-init="config.path='http://${osgi.host}:4503${osgi.updatePath}'" data-ng-disabled="preventInput" required>
+                                        <span class="coral-Form-fieldinfo coral-Icon coral-Icon--infoCircle coral-Icon--sizeS" data-init="quicktip" data-quicktip-type="info" data-quicktip-arrow="right" data-quicktip-content="Usually this lives on a Publish instance."></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p>
+                                <button class="coral-Button coral-Button--primary" type="submit" data-ng-disabled="preventInput">Run Indexer</button>
+                            </p>
+
+                        </form>
+
+                        <div class="coral-Alert coral-Alert--notice" data-sly-test="${!solrInstalled}">
+                            <button type="button" class="coral-MinimalButton coral-Alert-closeButton" title="Close" data-dismiss="alert">
+                                <i class="coral-Icon coral-Icon--sizeXS coral-Icon--close coral-MinimalButton-icon"></i>
+                            </button>
+                            <i class="coral-Alert-typeIcon coral-Icon coral-Icon--sizeS coral-Icon--alert"></i>
+                            <strong class="coral-Alert-title">Notice</strong>
+                            <div class="coral-Alert-message">It looks like you don't have Solr set up with your AEM instance.</div>
+                        </div>
+
+                    </div>
+                    <div class="coral-FixedColumn-column">
+                        <div data-ng-hide="noProgress(progress)">
+                            <h3>Progress:</h3>
+                            <ul class="progress-list">
+                                <li data-ng-repeat="(key, value) in progress" class="progress-list__item">
+                                    <div class="coral-Wait" data-ng-show="value.status == 'running'"></div>
+                                    <div class="coral-Icon coral-Icon--check" data-ng-show="value.status == 'done'"></div>
+                                    <div class="coral-Icon coral-Icon--close" data-ng-show="value.status == 'error'"></div>
+                                    {{value.message}}
+                                </li>
+                            </ul>
+                            <div class="coral-Form--vertical" data-ng-show="indexContent">
+                                <div class="coral-Form-fieldwrapper">
+                                    <label class="coral-Form-fieldlabel">The following data was indexed:</label>
+                                    <textarea class="coral-Form-field resizable-none coral-Textfield coral-Textfield--multiline" data-ng-model="indexContent" rows="8" disabled></textarea>
+                                </div>
+                            </div>
+                            <div class="coral-Form--vertical" data-ng-show="finished">
+                                <button class="coral-Button" type="submit" data-ng-click="runAgain()">Run Again</button>
+                                <button class="coral-Button" type="submit" data-ng-click="changeValues()">Change Values</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="infield-toolbox-footer">
+                <p>&copy; Infield Design. All rights reserved. Use at your own risk.</p>
+            </footer>
+        </main>
+
+    </div>
+
+    <sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html" data-sly-call="${clientLib.js @ categories='infield-commons.solr-indexer'}" data-sly-unwrap/>
+
+</body>
+</html>

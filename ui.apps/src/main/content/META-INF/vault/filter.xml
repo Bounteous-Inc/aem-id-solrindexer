@@ -3,6 +3,6 @@
     <filter root="/apps/infield">
         <exclude pattern="/apps/infield/install" />
     </filter>
-    <filter root="/apps/sling" />
-    <filter root="/etc/designs/infield"/>
+    <filter root="/etc/infield"/>
+    <filter root="/apps/cq"/>
 </workspaceFilter>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:description="Manually re-index content in Solr."
+    jcr:primaryType="nt:unstructured"
+    jcr:title="Solr Indexer"
+    href="/etc/infield/solr-indexer.html"
+    id="infield-commons-solr-index-tool"
+    target="_blank"/>
