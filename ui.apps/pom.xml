@@ -30,10 +30,10 @@
     <!-- ====================================================================== -->
     <!-- P R O J E C T  D E S C R I P T I O N                                   -->
     <!-- ====================================================================== -->
-    <artifactId>solrindexer.ui.apps</artifactId>
+    <artifactId>infield.solrindexer</artifactId>
     <packaging>content-package</packaging>
     <name>Infield Solr Indexer - UI apps</name>
-    <description>UI apps package for Infield Solr Indexer</description>
+    <description>User-friendly UI for bulk indexing pages/assets for AEM Solr.</description>
 
     <!-- <scm>
         <connection></connection>
