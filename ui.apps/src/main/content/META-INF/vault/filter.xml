@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
-    <filter root="/apps/infield">
-        <exclude pattern="/apps/infield/install" />
+    <filter root="/apps/infield/components/utilities/solr-indexer" />
+    <filter root="/apps/infield/install">
+        <include pattern="/apps/infield/install/solrindexer.*" />
     </filter>
-    <filter root="/etc/infield"/>
-    <filter root="/apps/cq"/>
+    <filter root="/etc/infield/solr-indexer" />
+    <filter root="/apps/cq/core/content/nav/tools/infield/solr-indexer" />
 </workspaceFilter>
