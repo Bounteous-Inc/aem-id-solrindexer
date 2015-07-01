@@ -209,7 +209,6 @@ public class SolrIndexServlet extends SlingAllMethodsServlet {
         String solrUrl = request.getParameter("solrurl");
         String indexPath = request.getParameter("indexPath");
         JSONObject reqData = new JSONObject();
-        String query = "";
         OutputStreamWriter osw = null;
         BufferedReader br = null;
 
@@ -221,20 +220,16 @@ public class SolrIndexServlet extends SlingAllMethodsServlet {
             if (solrUrl == null || "".equals(solrUrl)) {
                 reqData.put("success", false);
                 reqData.put("message", "Error: No Solr URL specified.");
+                return;
             }
             if (indexPath == null || "".equals(indexPath)) {
                 reqData.put("success", false);
                 reqData.put("message", "Error: No indexPath specified.");
+                return;
             }
-            if (indexPath != null && (!indexPath.startsWith("/content") || indexPath.endsWith("/"))) {
+            if (!indexPath.startsWith("/content") || indexPath.endsWith("/")) {
                 reqData.put("success", false);
                 reqData.put("message", "Error: Invalid path provided.");
-                LOG.info("Invalid path provided to Solr indexer.");
-                return;
-            } else if (indexPath == null) {
-                reqData.put("success", false);
-                reqData.put("message", "Error: No path provided.");
-                LOG.info("No index path provided.");
                 return;
             }
 
