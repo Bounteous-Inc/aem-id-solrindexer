@@ -1,54 +1,24 @@
-# Sample AEM project template
+# Infield Solr Indexer
 
-This is a project template for AEM-based applications. It is intended as a best-practice set of examples as well as a potential starting point to develop your own functionality.
+This project provides a nice UI on top of Headwire's [AEM Solr Search](https://github.com/headwirecom/aem-solr-search). It's essentially a replacement of the shell script that comes with Headwire's code. In that way, authors have an easy way to bulk index parts of the AEM site tree.  
+It has the following features:
 
-## Modules
+* Easy to use for authors.
+* Based on new Coral UI and Angular JS.
+* (Almost) no set up needed (it pulls all properties from the OSGi config)
 
-The main parts of the template are:
+## Requirements
 
-* core: Java bundle containing all core functionality like OSGi services, listeners or schedulers, as well as component-related Java code such as servlets or request filters.
-* ui.apps: contains the /apps (and /etc) parts of the project, ie JS&CSS clientlibs, components, templates, runmode specific configs as well as Hobbes-tests
-* ui.content: contains sample content using the components from the ui.apps
-* ui.tests: Java bundle containing JUnit tests that are executed server-side. This bundle is not to be deployed onto production.
-* ui.launcher: contains glue code that deploys the ui.tests bundle (and dependent bundles) to the server and triggers the remote JUnit execution
+* Headwire's [AEM Solr Search](https://github.com/headwirecom/aem-solr-search)
+* Custom Bulk Indexer (as outlined [here](https://github.com/headwirecom/aem-solr-search/blob/master/aemsolrsearch-geometrixx-media-sample/src/main/java/com/headwire/aemsolrsearch/geometrixxmedia/servlets/SolrBulkUpdateHandler.java)) that can take a "path" parameter and creates the index based on that.
+* Tested in AEM 6.0 SP2 but it should work with older versions as long as the 'coralui2' clientlib exists
 
-## How to build
+## Screenshots
 
-To build all the modules run in the project root directory the following command with Maven 3:
-
-    mvn clean install
-
-If you have a running AEM instance you can build and package the whole project and deploy into AEM with  
-
-    mvn clean install -PautoInstallPackage
-    
-Or to deploy it to a publish instance, run
-
-    mvn clean install -PautoInstallPackagePublish
-    
-Or to deploy only the bundle to the author, run
-
-    mvn clean install -PautoInstallBundle
-
-## Testing
-
-There are three levels of testing contained in the project:
-
-* unit test in core: this show-cases classic unit testing of the code contained in the bundle. To test, execute:
-
-    mvn clean test
-
-* server-side integration tests: this allows to run unit-like tests in the AEM-environment, ie on the AEM server. To test, execute:
-
-    mvn clean integration-test -PintegrationTests
-
-* client-side Hobbes.js tests: JavaScript-based browser-side tests that verify browser-side behavior. To test:
-
-    in the browser, open the page in 'Developer mode', open the left panel and switch to the 'Tests' tab and find the generated 'MyName Tests' and run them.
+![Screenshot set up](https://raw.githubusercontent.com/infielddesign/aem-id-solrindexer/master/screenshot_init.png "Set up screen")
+![Screenshot process](https://raw.githubusercontent.com/infielddesign/aem-id-solrindexer/master/screenshot_done.png "Process")
 
 
-## Maven settings
+## Questions & Feedback
 
-The project comes with the auto-public repository configured. To setup the repository in your Maven settings, refer to:
-
-    http://helpx.adobe.com/experience-manager/kb/SetUpTheAdobeMavenRepository.html
+Contact [Infield Design](http://www.infielddesign.com/contact/) or create an issue here in GitHub.
